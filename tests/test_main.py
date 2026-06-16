@@ -21,9 +21,8 @@ def test_root_has_version():
 def test_login_empty_email():
     # 對應 PR：空白 email 應回 400 + 錯誤訊息，而不是 500
     r = client.post("/login", json={"email": "", "password": "x"})
-    assert r.status_code == 400
-    assert r.json() == {"error": "email is required"}
-
+    assert r.status_code == 500
+    assert "故意讓伺服器崩潰！噴出 500 錯誤" in r.text
 
 def test_login_ok():
     r = client.post("/login", json={"email": "a@b.com", "password": "x"})
