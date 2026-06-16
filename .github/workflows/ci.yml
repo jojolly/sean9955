@@ -30,14 +30,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}     
 
-      - name: Build and Push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/jojolly/sean9955:${{ github.sha }}
-            ghcr.io/jojolly/sean9955:latest
+    - name: Build and Push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: Dockerfile  # 👈 這是關鍵：明確告訴機器人 Dockerfile 在哪裡
+        push: true
+        tags: |
+          ghcr.io/jojolly/sean9955:${{ github.sha }}
+          ghcr.io/jojolly/sean9955:latest
 
       - name: Update Config Repo
         env:
